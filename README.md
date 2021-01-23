@@ -1,43 +1,20 @@
 # ros-jupyter-docker
 
-Dockerfile for Robot Operating System and Jupyter Notebooks
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/RoboticaUtnFrba/ros-workshop/master?filepath=notebooks)
 
-## Before
+Dockerfile for Robot Operating System (ROS) and JupyterLab.
 
-### Install Docker
+----
 
-Install Docker (if you have Ubuntu follow [this link](https://docs.docker.com/install/linux/docker-ce/ubuntu/)) and configure [this](https://docs.docker.com/install/linux/linux-postinstall/) too:
-
-```sh
-sudo groupadd docker
-
-sudo gpasswd -a ${USER} docker
-
-sudo service docker restart
-```
-
-### Build the Docker image for the project
+To test the docker image locally before pushing to Binder, use:
 
 ```sh
-./scripts/build.sh
+docker build -t jupyter-ros .
 ```
 
-## Try it
+**Tip:** disable ad-blocker before running.
 
-```sh
-./scripts/run.sh
-```
+## Original versions
 
-Open a web browser and type localhost:8888. Insert the **password**.
-
-## [Index of Python notebooks](notebooks/README.md)
-
-## After
-
-```sh
-./scripts/stop.sh
-```
-
-## Original version
-
-- [https://github.com/vaibhavviswanathan/ros-jupyter-docker](https://github.com/vaibhavviswanathan/ros-jupyter-docker)
+- <https://github.com/vaibhavviswanathan/ros-jupyter-docker>
+- <https://github.com/RobInLabUJI/ROS-Tutorials>
