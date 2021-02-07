@@ -27,11 +27,11 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # Jupyter ROS
-RUN apt-get update && apt-get install -y \
-    libssl1.0-dev \
-    node-gyp \
-    nodejs-dev \
-    npm
+
+# install npm first
+RUN apt-get install -y curl
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash -
+RUN apt-get install -y nodejs
 RUN npm install -g n
 RUN n stable
 
