@@ -12,19 +12,30 @@ RUN apt-get update && apt-get install -y \
     apache2 \
     curl \
     git \
+    libgl1-mesa-dev \
+    netpbm=2:10.0-15.3build1 \
     python3 \
     python3-pip \
-    libgl1-mesa-dev \
-    x11-apps \
+    x11-apps=7.7+6ubuntu1 \
     xorg \
-    xvfb
-RUN pip3 install --upgrade pip
+    xvfb=2:1.19.6-1ubuntu4.8
 
 # install ros packages
 RUN apt-get update && apt-get install -y \
     ros-melodic-common-tutorials \
     ros-melodic-ros-tutorials \
     && rm -rf /var/lib/apt/lists/*
+
+# Jupyter ROS
+RUN apt-get update && apt-get install -y \
+    libssl1.0-dev \
+    node-gyp \
+    nodejs-dev \
+    npm
+RUN npm install -g n
+RUN n stable
+
+RUN pip3 install --upgrade pip
 
 # install jupyter and configure
 RUN pip3 install \
@@ -35,6 +46,15 @@ RUN pip3 install \
     matplotlib \
     notebook \
     pyyaml
+
+# Enable extensions in Jupyter Notebooks
+RUN jupyter nbextension enable --py widgetsnbextension
+
+RUN pip3 install jupyros
+# To install the extension for jupyterlab, you also need to execute the following:
+RUN jupyter labextension install jupyter-ros
+# Build jupyterlab
+RUN jupyter lab build
 
 ENV NB_USER jovyan
 ENV NB_UID 1000
