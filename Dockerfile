@@ -2,6 +2,10 @@ FROM osrf/ros:melodic-desktop-bionic
 
 LABEL maintainer="eborghiorue@frba.utn.edu.ar"
 
+ARG NB_USER=jovyan
+ARG NB_UID=1000
+ENV USER ${NB_USER}
+ENV HOME /home/${NB_USER}
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install dependencies
@@ -56,10 +60,7 @@ RUN jupyter labextension install jupyter-ros
 # Build jupyterlab
 RUN jupyter lab build
 
-ENV NB_USER jovyan
-ENV NB_UID 1000
-ENV HOME /home/${NB_USER}
-
+# https://mybinder.readthedocs.io/en/latest/tutorials/dockerfile.html
 RUN adduser --disabled-password \
     --gecos "Default user" \
     --uid ${NB_UID} \
@@ -68,7 +69,11 @@ RUN adduser --disabled-password \
 # Make sure the contents of our repo are in ${HOME}
 COPY . ${HOME}
 USER root
-RUN chown -R ${NB_UID} ${HOME}
+RUN chown -R ${NB_USER} ${HOME}
+
+RUN apt-get install -y ros-melodic-teb-local-planner ros-melodic-turtlebot3-simulations
+RUN mkdir -p ${HOME}/.ros
+RUN chown -R ${NB_USER} ${HOME}/.ros
 
 USER ${NB_USER}
 WORKDIR ${HOME}
